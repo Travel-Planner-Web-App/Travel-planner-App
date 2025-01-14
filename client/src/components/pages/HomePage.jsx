@@ -8,10 +8,6 @@ import {
   TextField,
   IconButton,
   Button,
-  Dialog, 
-  DialogTitle, 
-  DialogContent, 
-  DialogContentText,
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -36,16 +32,6 @@ const WeatherApp = () => {
   ]);
 
   const [locationName, setLocationName] = useState('Your Current Location');
-  const [selectedDay, setSelectedDay] = useState(null);
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const handleCardClick = (day) => {
-    setSelectedDay(day);
-    setDialogOpen(true);
-  };
-
-  const handleClose = () => {
-    setDialogOpen(false);
-  };
 
   const getWeatherIcon = (condition) => {
     const icons = {
@@ -68,31 +54,61 @@ const WeatherApp = () => {
   return (
     <Container maxWidth="md" sx={{ py: 6 }}>
       {/* Search Section */}
-      <Box display="flex" alignItems="center" mb={4}>
-        <TextField
-          fullWidth
-          variant="outlined"
-          size="small"
-          placeholder="Search for your destination"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          sx={{
-            borderRadius: 2,
-            '& .MuiOutlinedInput-root': { borderRadius: 2 },
-          }}
-        />
-        <IconButton
-          onClick={handleSearch}
-          sx={{
-            ml: 2,
-            backgroundColor: 'primary.main',
-            color: 'white',
-            '&:hover': { backgroundColor: 'primary.dark' },
-          }}
-        >
-          <SearchIcon />
-        </IconButton>
-      </Box>
+      <Box
+  display="flex"
+  alignItems="center"
+  justifyContent="center"
+  mb={4}
+  sx={{
+    gap: 2,
+    padding: 2,
+    backgroundColor: 'background.paper',
+    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+    borderRadius: 2,
+  }}
+  top={'20%'}
+>
+  <TextField
+    fullWidth
+    variant="outlined"
+    size="small"
+    placeholder="Search for your destination"
+    value={searchQuery}
+    onChange={(e) => setSearchQuery(e.target.value)}
+    sx={{
+      '& .MuiOutlinedInput-root': {
+        borderRadius: 3,
+        backgroundColor: 'white',
+        boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
+        '&.Mui-focused': {
+          boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)',
+        },
+      },
+    }}
+  />
+  <IconButton
+    onClick={handleSearch}
+    sx={{
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: 1.5,
+      backgroundColor: 'primary.main',
+      color: 'white',
+      borderRadius: 2,
+      top: 2,
+      boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+      '&:hover': {
+        backgroundColor: 'primary.dark',
+        boxShadow: '0px 6px 8px rgba(0, 0, 0, 0.2)',
+      },
+      transition: 'all 0.3s ease',
+    }}
+  >
+    <SearchIcon fontSize="medium" />
+  </IconButton>
+</Box>
+
 
       {/* Weather Icon Container */}
       <Box
@@ -104,9 +120,10 @@ const WeatherApp = () => {
           borderRadius: 2,
           padding: 2,
           boxShadow: 2,
+          
         }}
       >
-        <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 1 }}>
+        <Typography variant="h5" sx={{ color:'black', fontWeight: 'bold', mb: 2,marginTop: '20px' }}>
           {locationName}
         </Typography>
         <FavoriteIcon
@@ -118,23 +135,28 @@ const WeatherApp = () => {
             fontSize: 32,
           }}
         />
-      </Box>
+      
 
-      {/* Weather Cards */}
-      <Box display="flex" flexWrap="wrap" justifyContent="center" gap={3}>
-        {weatherData.map((day, index) => (
-          <Card
-            key={index}
-            onClick={() => handleCardClick(day)}
-            sx={{
-              width: 150,
-              textAlign: 'center',
-              boxShadow: 3,
-              borderRadius: 3,
-              transition: 'transform 0.2s, box-shadow 0.2s',
-              '&:hover': { transform: 'scale(1.1)', boxShadow: 5 },
-            }}
-          >
+    {/* Weather Cards */}
+<Box display="flex" flexWrap="wrap" justifyContent="center" gap={3}>
+  {weatherData.map((day, index) => (
+    <Card
+      key={index}
+      sx={{
+        width: 170,
+        height: 230,
+        textAlign: 'center',
+        boxShadow: 3,
+        borderRadius: 2,
+        overflow: 'hidden',
+        transition: 'transform 0.3s, box-shadow 0.3s',
+        '&:hover': {
+          transform: 'scale(1.05)',
+          boxShadow: '0px 8px 16px rgba(0, 0, 0, 0.2)',
+        },
+        backgroundColor: 'background.default',
+      }}
+    >
             <CardContent>
               <Typography
                 variant="subtitle1"
@@ -157,36 +179,17 @@ const WeatherApp = () => {
               <Button
                 variant="outlined"
                 size="small"
-                sx={{ mt: 2 }}
+                sx={{ mt: 1 }}
                 onClick={() => console.log(`Looking for activities on ${day.date}`)}
               >
-                Look for activities
+                Activities
               </Button>
             </CardContent>
           </Card>
         ))}
       </Box>
-
-      {/*Selected day */}
-      <Dialog open={dialogOpen} onClose={handleClose}>
-        <DialogTitle>Activities for {selectedDay?.date}</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Based on the weather ({selectedDay?.day.condition.text}), here are some activities you can enjoy:
-          </DialogContentText>
-          <ul>
-            {selectedDay?.day.condition.text === 'Sunny' && <li>Go for a hike</li>}
-            {selectedDay?.day.condition.text === 'Partly cloudy' && <li>Visit a park</li>}
-            {selectedDay?.day.condition.text === 'Rain' && <li>Visit a museum</li>}
-            {selectedDay?.day.condition.text === 'Cloudy' && <li>Go to a coffee shop</li>}
-            {selectedDay?.day.condition.text === 'Light rain' && <li>Watch a movie indoors</li>}
-            {selectedDay?.day.condition.text === 'Overcast' && <li>Explore an indoor market</li>}
-            {selectedDay?.day.condition.text === 'Clear' && <li>Have a picnic</li>}
-          </ul>
-        </DialogContent>
-      </Dialog>
+      </Box>
     </Container>
   );
 };
-
 export default WeatherApp;
