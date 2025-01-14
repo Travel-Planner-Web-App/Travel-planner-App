@@ -1,222 +1,152 @@
-// import React, { useState, useEffect } from 'react';
-// import { Container, Box, Card, CardContent, Typography, TextField, IconButton } from '@mui/material';
-// import SearchIcon from '@mui/icons-material/Search';
-// import FavoriteIcon from '@mui/icons-material/Favorite';
-// import axios from 'axios';
-
-// const WeatherApp = () => {
-//   const [searchQuery, setSearchQuery] = useState('');
-//   const [weatherData, setWeatherData] = useState([]);
-//   const [locationName, setLocationName] = useState('Location name');
-
-//   useEffect(() => {
-//     // Fetch initial weather data for default location
-//     fetchWeatherData('default-location');
-//   }, []);
-
-//   const fetchWeatherData = async (location) => {
-//     try {
-//       // Replace with your API URL and key
-//       const response = await axios.get(`https://api.weatherapi.com/v1/forecast.json?key=YOUR_API_KEY&q=${location}&days=7`);
-//       const forecast = response.data.forecast.forecastday;
-//       setWeatherData(forecast);
-//       setLocationName(response.data.location.name);
-//     } catch (error) {
-//       console.error('Error fetching weather data:', error);
-//     }
-//   };
-
-//   const handleSearch = () => {
-//     if (searchQuery.trim()) {
-//       fetchWeatherData(searchQuery);
-//     }
-//   };
-
-//   return (
-//     <Container maxWidth="sm">
-//       <Box display="flex" alignItems="center" justifyContent="space-between" my={2}>
-//         <Box>
-//           <img src="/location.jpg" alt="logo" style={{ height: 50 }} />
-//         </Box>
-//         <Box display="flex" alignItems="center" flexGrow={1} ml={2}>
-//           <TextField
-//             fullWidth
-//             variant="outlined"
-//             size="small"
-//             placeholder="Search for your destination"
-//             value={searchQuery}
-//             onChange={(e) => setSearchQuery(e.target.value)}
-//           />
-//           <IconButton onClick={handleSearch}>
-//             <SearchIcon />
-//           </IconButton>
-//         </Box>
-//       </Box>
-
-//       <Typography variant="h5" align="center" gutterBottom>
-//         {locationName}
-//       </Typography>
-
-//       <Box display="flex" justifyContent="center" mb={2}>
-//         <FavoriteIcon color="error" />
-//       </Box>
-
-//       <Box display="flex" flexWrap="wrap" justifyContent="space-around" gap={2}>
-//         {weatherData.map((day, index) => (
-//           <Card
-//             key={index}
-//             onClick={() => alert(`Details for ${day.date}`)}
-//             style={{ cursor: 'pointer', width: '120px', textAlign: 'center' }}
-//           >
-//             <CardContent>
-//               <Typography variant="subtitle1" gutterBottom>
-//                 {index === 0 ? 'TODAY' : new Date(day.date).toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase()}
-//               </Typography>
-//               <img src={`https:${day.day.condition.icon}`} alt="weather" style={{ height: 40 }} />
-//               <Typography variant="body2">{day.day.condition.text}</Typography>
-//               <Typography variant="body2">{day.day.avgtemp_c}°C</Typography>
-//               <Typography variant="caption" display="block">
-//                 Look at activities
-//               </Typography>
-//             </CardContent>
-//           </Card>
-//         ))}
-//       </Box>
-//     </Container>
-//   );
-// };
-
-// export default WeatherApp;
-
-import React, { useState, useEffect } from 'react';
-import { Container, Box, Card, CardContent, Typography, TextField, IconButton } from '@mui/material';
+import React, { useState } from 'react';
+import {
+  Container,
+  Box,
+  Card,
+  CardContent,
+  Typography,
+  TextField,
+  IconButton,
+  Button,
+} from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import axios from 'axios';
+
+import SnowIcon from '../../assets/snow.svg';
+import ThunderstormIcon from '../../assets/thunderstorms-night-rain.svg';
+import ClearDayIcon from '../../assets/clear-day.svg';
+import PartlyCloudyIcon from '../../assets/partly-cloudy-day.svg';
+import RainIcon from '../../assets/rainIcon.svg';
+import FogIcon from '../../assets/fog.svg';
 
 const WeatherApp = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [weatherData, setWeatherData] = useState([
-    {
-      date: '2025-01-14',
-      day: {
-        condition: { text: 'Partly cloudy', icon: '//cdn.weatherapi.com/weather/64x64/day/116.png' },
-        avgtemp_c: 15,
-      },
-    },
-    {
-      date: '2025-01-15',
-      day: {
-        condition: { text: 'Sunny', icon: '//cdn.weatherapi.com/weather/64x64/day/113.png' },
-        avgtemp_c: 18,
-      },
-    },
-    {
-      date: '2025-01-16',
-      day: {
-        condition: { text: 'Rain', icon: '//cdn.weatherapi.com/weather/64x64/day/308.png' },
-        avgtemp_c: 12,
-      },
-    },
-    {
-      date: '2025-01-17',
-      day: {
-        condition: { text: 'Cloudy', icon: '//cdn.weatherapi.com/weather/64x64/day/119.png' },
-        avgtemp_c: 14,
-      },
-    },
-    {
-      date: '2025-01-18',
-      day: {
-        condition: { text: 'Light rain', icon: '//cdn.weatherapi.com/weather/64x64/day/296.png' },
-        avgtemp_c: 13,
-      },
-    },
-    {
-      date: '2025-01-19',
-      day: {
-        condition: { text: 'Overcast', icon: '//cdn.weatherapi.com/weather/64x64/day/122.png' },
-        avgtemp_c: 11,
-      },
-    },
-    {
-      date: '2025-01-20',
-      day: {
-        condition: { text: 'Clear', icon: '//cdn.weatherapi.com/weather/64x64/day/113.png' },
-        avgtemp_c: 16,
-      },
-    },
+    { date: '2025-01-14', day: { condition: { text: 'Snow', icon: 'snow' }, avgtemp_c: 15 } },
+    { date: '2025-01-15', day: { condition: { text: 'Thunderstorm', icon: 'thunderstorms-night-rain' }, avgtemp_c: 18 } },
+    { date: '2025-01-16', day: { condition: { text: 'Clear', icon: 'clear-day' }, avgtemp_c: 12 } },
+    { date: '2025-01-17', day: { condition: { text: 'Partly Cloudy', icon: 'partly-cloudy-day' }, avgtemp_c: 14 } },
+    { date: '2025-01-18', day: { condition: { text: 'Rain', icon: 'rain' }, avgtemp_c: 13 } },
+    { date: '2025-01-19', day: { condition: { text: 'Fog', icon: 'fog' }, avgtemp_c: 11 } },
+    { date: '2025-01-20', day: { condition: { text: 'Snow', icon: 'snow' }, avgtemp_c: 10 } },
   ]);
-  const [locationName, setLocationName] = useState('Your Current location');
 
-  useEffect(() => {
-    // Fetch initial weather data for default location (if needed)
-  }, []);
+  const [locationName, setLocationName] = useState('Your Current Location');
 
-  const fetchWeatherData = async (location) => {
-    try {
-      // Replace with your API URL and key
-      const response = await axios.get(`https://api.weatherapi.com/v1/forecast.json?key=YOUR_API_KEY&q=${location}&days=7`);
-      const forecast = response.data.forecast.forecastday;
-      setWeatherData(forecast);
-      setLocationName(response.data.location.name);
-    } catch (error) {
-      console.error('Error fetching weather data:', error);
-    }
+  const getWeatherIcon = (condition) => {
+    const icons = {
+      Snow: SnowIcon,
+      Thunderstorm: ThunderstormIcon,
+      Clear: ClearDayIcon,
+      'Partly Cloudy': PartlyCloudyIcon,
+      Rain: RainIcon,
+      Fog: FogIcon,
+    };
+    return <img src={icons[condition]} alt={condition} style={{ width: '60px', height: '60px' }} />;
   };
 
   const handleSearch = () => {
     if (searchQuery.trim()) {
-      fetchWeatherData(searchQuery);
+      console.log('Searching for:', searchQuery);
     }
   };
 
   return (
-    <Container maxWidth="sm">
-      <Box display="flex" align-Items="center" justifyContent="space-between" my={2}>
-        <Box>
-          <img src="/location.jpg" alt="logo" style={{ height: 50 }} />
-        </Box>
-        <Box display="flex" alignItems="center" flexGrow={1} ml={2}>
-          <TextField
-            fullWidth
-            variant="outlined"
-            size="small"
-            placeholder="Search for your destination"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-          <IconButton onClick={handleSearch}>
-            <SearchIcon />
-          </IconButton>
-        </Box>
+    <Container maxWidth="md" sx={{ py: 6 }}>
+      {/* Search Section */}
+      <Box display="flex" alignItems="center" mb={4}>
+        <TextField
+          fullWidth
+          variant="outlined"
+          size="small"
+          placeholder="Search for your destination"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          sx={{
+            borderRadius: 2,
+            '& .MuiOutlinedInput-root': { borderRadius: 2 },
+          }}
+        />
+        <IconButton
+          onClick={handleSearch}
+          sx={{
+            ml: 2,
+            backgroundColor: 'primary.main',
+            color: 'white',
+            '&:hover': { backgroundColor: 'primary.dark' },
+          }}
+        >
+          <SearchIcon />
+        </IconButton>
       </Box>
 
-      <Typography variant="h5" align="center" gutterBottom>
-        {locationName}
-      </Typography>
-
-      <Box display="flex" justifyContent="center" mb={2}>
-        <FavoriteIcon color="error" />
+      {/* Weather Icon Container */}
+      <Box
+        sx={{
+          position: 'relative',
+          textAlign: 'center',
+          mb: 4,
+          border: '1px solid',
+          borderRadius: 2,
+          padding: 2,
+          boxShadow: 2,
+        }}
+      >
+        <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 1 }}>
+          {locationName}
+        </Typography>
+        <FavoriteIcon
+          color="error"
+          sx={{
+            position: 'absolute',
+            top: 8,
+            right: 8,
+            fontSize: 32,
+          }}
+        />
       </Box>
 
-      <Box display="flex" flexWrap="wrap" justifyContent="space-around" gap={2}>
+      {/* Weather Cards */}
+      <Box display="flex" flexWrap="wrap" justifyContent="center" gap={3}>
         {weatherData.map((day, index) => (
           <Card
             key={index}
-            onClick={() => alert(`Details for ${day.date}`)}
-            style={{ cursor: 'pointer', width: '120px', textAlign: 'center' }}
+            sx={{
+              width: 150,
+              textAlign: 'center',
+              boxShadow: 3,
+              borderRadius: 3,
+              transition: 'transform 0.2s, box-shadow 0.2s',
+              '&:hover': { transform: 'scale(1.1)', boxShadow: 5 },
+            }}
           >
             <CardContent>
-              <Typography variant="subtitle1" gutterBottom>
-                {index === 0 ? 'TODAY' : new Date(day.date).toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase()}
+              <Typography
+                variant="subtitle1"
+                sx={{ fontWeight: 'bold', color: 'text.primary', mb: 1 }}
+              >
+                {index === 0
+                  ? 'TODAY'
+                  : new Date(day.date).toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase()}
               </Typography>
-              <img src={`https:${day.day.condition.icon}`} alt="weather" style={{ height: 40 }} />
-              <Typography variant="body2">{day.day.condition.text}</Typography>
-              <Typography variant="body2">{day.day.avgtemp_c}°C</Typography>
-              <Typography variant="caption" display="block">
-                Look at activities
+              {getWeatherIcon(day.day.condition.text)}
+              <Typography variant="body2" sx={{ mt: 1, color: 'text.secondary' }}>
+                {day.day.condition.text}
               </Typography>
+              <Typography
+                variant="body2"
+                sx={{ fontWeight: 'bold', color: 'text.primary', mt: 1 }}
+              >
+                {day.day.avgtemp_c}°C
+              </Typography>
+              <Button
+                variant="outlined"
+                size="small"
+                sx={{ mt: 2 }}
+                onClick={() => console.log(`Looking for activities on ${day.date}`)}
+              >
+                Look for activities
+              </Button>
             </CardContent>
           </Card>
         ))}
@@ -226,4 +156,3 @@ const WeatherApp = () => {
 };
 
 export default WeatherApp;
-
