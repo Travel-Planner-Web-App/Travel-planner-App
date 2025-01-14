@@ -8,6 +8,10 @@ import {
   TextField,
   IconButton,
   Button,
+  Dialog, 
+  DialogTitle, 
+  DialogContent, 
+  DialogContentText,
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -32,6 +36,16 @@ const WeatherApp = () => {
   ]);
 
   const [locationName, setLocationName] = useState('Your Current Location');
+  const [selectedDay, setSelectedDay] = useState(null);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const handleCardClick = (day) => {
+    setSelectedDay(day);
+    setDialogOpen(true);
+  };
+
+  const handleClose = () => {
+    setDialogOpen(false);
+  };
 
   const getWeatherIcon = (condition) => {
     const icons = {
@@ -111,6 +125,7 @@ const WeatherApp = () => {
         {weatherData.map((day, index) => (
           <Card
             key={index}
+            onClick={() => handleCardClick(day)}
             sx={{
               width: 150,
               textAlign: 'center',
@@ -151,6 +166,25 @@ const WeatherApp = () => {
           </Card>
         ))}
       </Box>
+
+      {/*Selected day */}
+      <Dialog open={dialogOpen} onClose={handleClose}>
+        <DialogTitle>Activities for {selectedDay?.date}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Based on the weather ({selectedDay?.day.condition.text}), here are some activities you can enjoy:
+          </DialogContentText>
+          <ul>
+            {selectedDay?.day.condition.text === 'Sunny' && <li>Go for a hike</li>}
+            {selectedDay?.day.condition.text === 'Partly cloudy' && <li>Visit a park</li>}
+            {selectedDay?.day.condition.text === 'Rain' && <li>Visit a museum</li>}
+            {selectedDay?.day.condition.text === 'Cloudy' && <li>Go to a coffee shop</li>}
+            {selectedDay?.day.condition.text === 'Light rain' && <li>Watch a movie indoors</li>}
+            {selectedDay?.day.condition.text === 'Overcast' && <li>Explore an indoor market</li>}
+            {selectedDay?.day.condition.text === 'Clear' && <li>Have a picnic</li>}
+          </ul>
+        </DialogContent>
+      </Dialog>
     </Container>
   );
 };
