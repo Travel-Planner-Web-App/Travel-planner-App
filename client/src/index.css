@@ -1,11 +1,12 @@
+/* Global root styles */
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  color-scheme: light dark; /* Support for light and dark modes */
+  color: rgba(255, 255, 255, 0.87); /* Default text color */
+  background-color: #242424; /* Dark background color */
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -13,14 +14,27 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-
-
+/* Body styles for centering content */
 body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  margin: 0;                   /* Remove default margin */
+  display: flex;               /* Flexbox layout */
+  justify-content: center;     /* Center horizontally */
+  align-items: center;         /* Center vertically */
+  min-width: 320px;             /* Ensure body is at least 320px wide */
+  min-height: 100vh;            /* Take up full height of the viewport */
+  background-color: #f5f5f5;  /* Dark background */
+  color: rgba(255, 255, 255, 0.87); /* Text color for the body */
 }
 
-
+/* Optional: Root element that holds the main content */
+#root {
+  width: 100%;                 /* Full width */
+  max-width: 1280px;           /* Maximum width of 1280px */
+  margin: 0 auto;              /* Center the root element */
+  padding: 0;                  /* No extra padding */
+  display: flex;               /* Flexbox layout for children */
+  justify-content: center;     /* Horizontally center content */
+  align-items: center;         /* Vertically center content */
+  height: 100%;                /* Take up full height of the body */
+  box-sizing: border-box;      /* Include padding and borders in element's width/height */
+}
