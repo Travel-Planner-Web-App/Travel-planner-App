@@ -3,7 +3,7 @@ const cors = require("cors");
 require("dotenv").config();
 
 const weatherRoutes = require("./routes/weather");
-const activitiesRoutes = require("./routes/activities");
+// const activitiesRoutes = require("./routes/activities");
 const favoritesRoutes = require("./routes/favorites");
 
 const app = express();
@@ -14,7 +14,7 @@ app.use(express.json());
 
 // Routes
 app.use("/api/weather", weatherRoutes);
-app.use("/api/activities", activitiesRoutes);
+// app.use("/api/activities", activitiesRoutes);
 app.use("/api/favorites", favoritesRoutes);
 
 // Start server
