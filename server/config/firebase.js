@@ -1,10 +1,21 @@
-const admin = require("firebase-admin");
-const serviceAccount = require("../path-to-your-service-account-key.json");
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+import { getAuth } from "firebase/auth";
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-});
+const firebaseConfig = {
+  apiKey: "AIzaSyDPHyob9jTfcQCgOB0aNuX0n5OdGSzkAtE",
+  authDomain: "hotel-data-store.firebaseapp.com",
+  databaseURL: "https://hotel-data-store-default-rtdb.firebaseio.com",
+  projectId: "hotel-data-store",
+  storageBucket: "hotel-data-store.appspot.com",
+  messagingSenderId: "995060333011",
+  appId: "1:995060333011:web:461196f934001f70909726",
+  measurementId: "G-76QW5MV4PF"
+};
 
-const db = admin.firestore();
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+const auth = getAuth(app);
 
-module.exports = db;
+export { auth };
