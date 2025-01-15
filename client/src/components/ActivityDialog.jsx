@@ -213,7 +213,7 @@ const ActivityDialog = React.memo(({ open, handleClose, activity }) => {
             color: 'white',
             px: 4,
             py: 1,
-            borderRadius: 2,
+            borderRadius: 1,
             textTransform: 'none',
             fontWeight: 'bold',
             '&:hover': {
