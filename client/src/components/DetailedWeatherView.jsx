@@ -18,7 +18,7 @@ const DetailedWeatherView = ({ selectedDay, activities, handleActivityClick, set
         sx={{
           position: 'relative',
           right: { xs: '0%', sm: '0%', md: '0%', lg: '0%' },
-          width: { xs: '90%', sm: '90%', md: '30%', lg: '90%' },
+          width: { xs: '90%', sm: '90%', md: '90%', lg: '90%' },
           height: 'auto',
           backgroundColor: 'grey.900',
           boxShadow: 3,

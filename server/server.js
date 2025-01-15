@@ -3,18 +3,25 @@ const cors = require("cors");
 require("dotenv").config();
 
 const weatherRoutes = require("./routes/weather");
-const activitiesRoutes = require("./routes/activities");
+// const activitiesRoutes = require("./routes/activities");
 const favoritesRoutes = require("./routes/favorites");
 
 const app = express();
 
+const corsOptions = {
+  origin: ["http://localhost:5000", "http://localhost:5173"], 
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true // Enable if you're using cookies/sessions
+};
+
 // Middleware
-app.use(cors());
+app.use(cors(corsOptions.origin));
 app.use(express.json());
 
 // Routes
 app.use("/api/weather", weatherRoutes);
-app.use("/api/activities", activitiesRoutes);
+// app.use("/api/activities", activitiesRoutes);
 app.use("/api/favorites", favoritesRoutes);
 
 // Start server
