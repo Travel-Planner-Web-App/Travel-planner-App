@@ -30,7 +30,7 @@ const Homepage = () => {
       description: "Explore scenic mountain trails with professional guides",
       image: "https://source.unsplash.com/featured/?mountain,hiking",
       location: { lat: 40.7128, lng: -74.0060 },
-      backgroundImage: "https://source.unsplash.com/featured/?mountain,trail",
+      backgroundImage: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.shutterstock.com%2Fsearch%2Fhiking&psig=AOvVaw33ArpAIdAbcSjE012avEbJ&ust=1737014202029000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCOCP_aWg94oDFQAAAAAdAAAAABAE",
     },
     {
       id: 2,

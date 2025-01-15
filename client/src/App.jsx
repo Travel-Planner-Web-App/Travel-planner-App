@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Drawer,
   Box,
@@ -8,19 +8,45 @@ import {
   ListItemText,
   IconButton,
   Typography,
+  Tooltip,
 } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import LogoutIcon from '@mui/icons-material/Logout';
 import HomePage from './components/pages/HomePage';
 import logo from './assets/logo.png'; // Assuming the logo image is placed in src/assets
 
+ 
+
 function App() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false); // Handle profile circle click
+  const [location, setLocation] = useState(null); // To store user's current location
+  const [locationError, setLocationError] = useState(null); // To handle location errors
 
   const toggleDrawer = (open) => () => {
     setDrawerOpen(open);
   };
+ // Prompt user for location access on app start
+ useEffect(() => {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setLocation({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+        });
+        console.log("Location accessed:", position.coords);
+      },
+      (error) => {
+        setLocationError(error.message);
+        console.error("Error accessing location:", error.message);
+      }
+    );
+  } else {
+    setLocationError("Geolocation is not supported by your browser.");
+    console.error("Geolocation not supported.");
+  }
+}, []);
 
   const handleLogout = () => {
     console.log('User logged out');
@@ -66,27 +92,28 @@ function App() {
           onClick={toggleDrawer(false)}
           onKeyDown={toggleDrawer(false)}
         >
-          {/* Profile Circle */}
-          <Box
-            sx={{
-              position: 'absolute',
-              top: 16,
-              right: 16,
-              width: 50,
-              height: 50,
-              backgroundColor: '#007bff',
-              borderRadius: '50%',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              color: 'white',
-              cursor: 'pointer',
-            }}
-            onClick={handleProfileClick}
-          >
-            {/* Profile Icon or Initials */}
-            <Typography variant="h6">P</Typography>
-          </Box>
+          <Tooltip title="Profile">
+  <Box
+    sx={{
+      position: 'absolute',
+      top: 16,
+      right: 16,
+      width: 50,
+      height: 50,
+      backgroundColor: '#007bff',
+      borderRadius: '50%',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      color: 'white',
+      cursor: 'pointer',
+    }}
+    onClick={handleProfileClick}
+  >
+    <Typography variant="h6">P</Typography>
+  </Box>
+</Tooltip>
+
 
           <List sx={{ marginTop: '80px', paddingLeft: 0 }}>
             {/* Favorites */}
@@ -120,7 +147,12 @@ function App() {
           marginTop: '50px',  // Adjusted to move the content down below the logo
         }}
       >
-        <HomePage />
+        <HomePage location={location} locationError={locationError} />
+        {locationError && (
+          <Typography color="error" variant="body2">
+            {locationError}
+          </Typography>
+        )}
       </Box>
     </>
   );
