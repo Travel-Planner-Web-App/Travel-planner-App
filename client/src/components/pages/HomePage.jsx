@@ -30,7 +30,7 @@
 //       description: "Explore scenic mountain trails with professional guides",
 //       image: "https://source.unsplash.com/featured/?mountain,hiking",
 //       location: { lat: 40.7128, lng: -74.0060 },
-//       backgroundImage: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.shutterstock.com%2Fsearch%2Fhiking&psig=AOvVaw33ArpAIdAbcSjE012avEbJ&ust=1737014202029000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCOCP_aWg94oDFQAAAAAdAAAAABAE",
+//       backgroundImage: "https://source.unsplash.com/featured/?mountain,trail",
 //     },
 //     {
 //       id: 2,
@@ -131,6 +131,9 @@
 
 // export default Homepage;
 
+
+
+//
 import { useState } from 'react';
 import { Container, Box, Typography, CircularProgress } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -245,10 +248,7 @@ const Homepage = () => {
           position: 'relative',
           textAlign: 'center',
           mb: 4,
-          border: '1px solid',
-          borderRadius: 2,
           padding: 2,
-          boxShadow: 2,
           color: 'black',
           minHeight: '200px'
         }}
