@@ -18,6 +18,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
 import SearchBar from '../SearchBar';
 import DetailedWeatherView from '../DetailedWeatherView';
+import WeatherIcon from '../WeatherIcon';
 
 // WeatherCard Component
 const WeatherCard = ({ day, index, setSelectedDay, onActivityClick }) => {

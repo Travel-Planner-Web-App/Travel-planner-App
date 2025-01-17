@@ -125,7 +125,7 @@ function App() {
           left: 0,
         }}
       >
-        <Typography variant="body2">© 2025 Your App Name. All Rights Reserved.</Typography>
+        <Typography variant="body2">© 2025 Travel Planner. All Rights Reserved.</Typography>
       </Box>
     </Box>
   );
