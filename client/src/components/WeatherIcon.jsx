@@ -1,22 +1,22 @@
 import React from 'react';
-import SnowIcon from '../assets/snow.svg';
-import ThunderstormIcon from '../assets/thunderstorms-night-rain.svg';
-import ClearDayIcon from '../assets/clear-day.svg';
-import PartlyCloudyIcon from '../assets/partly-cloudy-day.svg';
-import RainIcon from '../assets/rainIcon.svg';
-import FogIcon from '../assets/fog.svg';
+import { FaSun, FaCloudSun, FaCloudShowersHeavy, FaSnowflake, FaCloud } from 'react-icons/fa'; // Import weather icons
 
 const WeatherIcon = ({ condition }) => {
-  const icons = {
-    Snow: SnowIcon,
-    Thunderstorm: ThunderstormIcon,
-    Clear: ClearDayIcon,
-    'Partly Cloudy': PartlyCloudyIcon,
-    Rain: RainIcon,
-    Fog: FogIcon,
-  };
-  
-  return <img src={icons[condition]} alt={condition} style={{ width: '60px', height: '60px' }} />;
+  const iconSize = 40; // Set desired icon size
+
+  // Map weather condition to a corresponding icon
+  switch (condition.toLowerCase()) {
+    case 'clear':
+      return <FaSun size={iconSize} color="#FFD700" />; // Gold for sunny
+    case 'clouds':
+      return <FaCloudSun size={iconSize} color="#A9A9A9" />; // Gray for cloudy
+    case 'rain':
+      return <FaCloudShowersHeavy size={iconSize} color="#1E90FF" />; // DodgerBlue for rain
+    case 'snow':
+      return <FaSnowflake size={iconSize} color="#87CEEB" />; // SkyBlue for snow
+    default:
+      return <FaCloud size={iconSize} color="#A9A9A9" />; // Gray for unknown
+  }
 };
 
 export default WeatherIcon;

@@ -22,7 +22,10 @@ body {
   align-items: center;         /* Center vertically */
   min-width: 320px;             /* Ensure body is at least 320px wide */
   min-height: 100vh;            /* Take up full height of the viewport */
-  background-color: #f5f5f5;  /* Dark background */
+  background-image: url('./assets/wallpaper.png'); /* Add the background image */
+  background-size: cover;      /* Ensure the image covers the whole screen */
+  background-position: center; /* Center the image */
+  background-attachment: fixed; /* Keep the background fixed while scrolling */
   color: rgba(255, 255, 255, 0.87); /* Text color for the body */
 }
 

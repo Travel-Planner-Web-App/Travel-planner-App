@@ -1,7 +1,3 @@
-import React from 'react';
-import { Box, Typography, Button } from '@mui/material';
-import WeatherIcon from './WeatherIcon';
-import ActivityCard from './ActivityCard';
 
 const DetailedWeatherView = ({ selectedDay, activities, handleActivityClick, setSelectedDay }) => {
   return (

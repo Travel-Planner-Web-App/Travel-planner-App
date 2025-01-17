@@ -1,6 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import {
   Drawer,
+  AppBar,
+  Toolbar,
   Box,
   List,
   ListItem,
@@ -9,77 +11,57 @@ import {
   IconButton,
   Typography,
   Tooltip,
+  Container,
 } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import LogoutIcon from '@mui/icons-material/Logout';
 import HomePage from './components/pages/HomePage';
-import logo from './assets/logo.png'; // Assuming the logo image is placed in src/assets
+import logo from './assets/logo.png'; // Ensure logo is in src/assets
+import wallpaper from './assets/wallpaper.jpg'; // Ensure wallpaper is in src/assets
 
- 
 
 function App() {
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [profileOpen, setProfileOpen] = useState(false); // Handle profile circle click
-  const [location, setLocation] = useState(null); // To store user's current location
-  const [locationError, setLocationError] = useState(null); // To handle location errors
+  const [profileOpen, setProfileOpen] = useState(false);
 
   const toggleDrawer = (open) => () => {
     setDrawerOpen(open);
   };
- // Prompt user for location access on app start
- useEffect(() => {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        setLocation({
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-        });
-        console.log("Location accessed:", position.coords);
-      },
-      (error) => {
-        setLocationError(error.message);
-        console.error("Error accessing location:", error.message);
-      }
-    );
-  } else {
-    setLocationError("Geolocation is not supported by your browser.");
-    console.error("Geolocation not supported.");
-  }
-}, []);
 
   const handleLogout = () => {
     console.log('User logged out');
-    // Add your logout logic here
   };
 
   const handleProfileClick = () => {
     setProfileOpen(true);
-    // Handle profile modal or navigation here
     console.log('Profile clicked');
   };
 
   return (
-    <>
-      {/* App Logo and Drawer Toggle */}
-      <Box
-        sx={{
-          position: 'absolute',
-          top: 16,  // Adjusted to move the logo slightly upwards
-          left: 16,
-          display: 'flex',
-          alignItems: 'center',
-          gap: 1,
-          
-        }}
-      >
-        <IconButton onClick={toggleDrawer(true)}>
-          {/* Display the logo */}
-          <img src={logo} alt="App Logo" style={{ width: 60, height: 60 }} />
-        </IconButton>
-      </Box>
+    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+      {/* Navbar */}
+      <AppBar position="fixed" sx={{ backgroundColor: 'rgba(0, 0, 0, 0)' }}>
+        <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
+          {/* Logo */}
+          <IconButton onClick={toggleDrawer(true)} sx={{ color: 'white' }}>
+            <img src={logo} alt="App Logo" style={{ width: 50, height: 50 }} />
+          </IconButton>
 
-      {/* Drawer */}
+          {/* Navigation Links */}
+          <Box sx={{ display: 'flex', gap: 3 }}>
+            <Typography variant="h6" sx={{ color: 'white', cursor: 'pointer' }}>
+            <ListItem button onClick={handleLogout}>
+              <ListItemIcon>
+                <LogoutIcon />
+              </ListItemIcon>
+              <ListItemText primary="Logout" />
+            </ListItem>
+            </Typography>
+          </Box>
+        </Toolbar>
+      </AppBar>
+
+      {/* Sidebar (Drawer) */}
       <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)}>
         <Box
           sx={{
@@ -93,30 +75,28 @@ function App() {
           onKeyDown={toggleDrawer(false)}
         >
           <Tooltip title="Profile">
-  <Box
-    sx={{
-      position: 'absolute',
-      top: 16,
-      right: 16,
-      width: 50,
-      height: 50,
-      backgroundColor: '#007bff',
-      borderRadius: '50%',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      color: 'white',
-      cursor: 'pointer',
-    }}
-    onClick={handleProfileClick}
-  >
-    <Typography variant="h6">P</Typography>
-  </Box>
-</Tooltip>
-
+            <Box
+              sx={{
+                position: 'absolute',
+                top: 16,
+                right: 16,
+                width: 50,
+                height: 50,
+                backgroundColor: '#007bff',
+                borderRadius: '50%',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                color: 'white',
+                cursor: 'pointer',
+              }}
+              onClick={handleProfileClick}
+            >
+              <Typography variant="h6">P</Typography>
+            </Box>
+          </Tooltip>
 
           <List sx={{ marginTop: '80px', paddingLeft: 0 }}>
-            {/* Favorites */}
             <ListItem button>
               <ListItemIcon sx={{ color: 'red' }}>
                 <FavoriteIcon />
@@ -124,37 +104,32 @@ function App() {
               <ListItemText primary="Favorites" />
             </ListItem>
 
-            {/* Logout */}
-            <ListItem button onClick={handleLogout}>
-              <ListItemIcon>
-                <LogoutIcon />
-              </ListItemIcon>
-              <ListItemText primary="Logout" />
-            </ListItem>
+           
           </List>
         </Box>
       </Drawer>
 
-      {/* Main App Content */}
+      {/* Main Content */}
+      <Container sx={{ flexGrow: 1, marginTop: '80px', paddingBottom: '50px' }}>
+        <HomePage />
+      </Container>
+
+      {/* Footer */}
       <Box
         sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          minHeight: '100vh',
-          flexDirection: 'column',
-          backgroundColor: '#f5f5f5',
-          marginTop: '50px',  // Adjusted to move the content down below the logo
+          backgroundColor: 'black',
+          color: 'white',
+          textAlign: 'center',
+          padding: '10px',
+          position: 'fixed',
+          bottom: 0,
+          width: '100%',
+          left: 0,
         }}
       >
-        <HomePage location={location} locationError={locationError} />
-        {locationError && (
-          <Typography color="error" variant="body2">
-            {locationError}
-          </Typography>
-        )}
+        <Typography variant="body2">© 2025 Travel Planner. All Rights Reserved.</Typography>
       </Box>
-    </>
+    </Box>
   );
 }
 
