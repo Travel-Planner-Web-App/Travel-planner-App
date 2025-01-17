@@ -10,6 +10,7 @@ import ActivityDialog from '../ActivityDialog';
 const Homepage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [weatherData, setWeatherData] = useState([]);
+  const [activities, setActivities] = useState([]);
   const [selectedDay, setSelectedDay] = useState(null);
   const [locationName, setLocationName] = useState('Soweto');
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -25,6 +26,7 @@ const Homepage = () => {
       const { location: locData, dailyForecasts } = response.data;
       setLocationName(locData.name);
       setWeatherData(dailyForecasts);
+      setActivities(activities); // Store activities in state
     } catch (err) {
       setError('Failed to fetch weather data. Please try again.');
       console.log(err);
