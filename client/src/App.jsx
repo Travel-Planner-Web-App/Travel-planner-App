@@ -17,6 +17,8 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import LogoutIcon from '@mui/icons-material/Logout';
 import HomePage from './components/pages/HomePage';
 import logo from './assets/logo.png'; // Ensure logo is in src/assets
+import wallpaper from './assets/wallpaper.jpg'; // Ensure wallpaper is in src/assets
+
 
 function App() {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -38,7 +40,7 @@ function App() {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       {/* Navbar */}
-      <AppBar position="fixed" sx={{ backgroundColor: '#007bff' }}>
+      <AppBar position="fixed" sx={{ backgroundColor: 'rgba(0, 0, 0, 0)' }}>
         <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
           {/* Logo */}
           <IconButton onClick={toggleDrawer(true)} sx={{ color: 'white' }}>
@@ -115,7 +117,7 @@ function App() {
       {/* Footer */}
       <Box
         sx={{
-          backgroundColor: '#007bff',
+          backgroundColor: 'black',
           color: 'white',
           textAlign: 'center',
           padding: '10px',

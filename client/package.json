@@ -15,9 +15,12 @@
     "@mui/icons-material": "^6.3.1",
     "@mui/material": "^6.3.1",
     "axios": "^1.7.9",
+    "date-fns": "^4.1.0",
+    "lucide-react": "^0.471.1",
     "mapbox-gl": "^3.9.3",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "react-icons": "^5.4.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",

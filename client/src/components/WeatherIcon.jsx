@@ -15,8 +15,15 @@ const WeatherIcon = ({ condition }) => {
     Rain: RainIcon,
     Fog: FogIcon,
   };
-  
-  return <img src={icons[condition]} alt={condition} style={{ width: '60px', height: '60px' }} />;
+
+  const iconSrc = icons[condition];
+
+  if (!iconSrc) {
+    console.error(`No icon found for condition: ${condition}`);
+    return null; // Return null or a default icon if the condition is not found
+  }
+
+  return <img src={iconSrc} alt={condition} style={{ width: '60px', height: '60px' }} />;
 };
 
 export default WeatherIcon;

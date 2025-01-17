@@ -1,110 +1,12 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { 
-  Container, 
-  Box, 
-  Typography, 
-  CircularProgress,
-  Button,
-  Card,
-  CardContent,
-  CardActions,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions
-} from '@mui/material';
+import { Container, Box, Typography, CircularProgress } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
 import SearchBar from '../SearchBar';
+import WeatherCard from './WeatherCard';
 import DetailedWeatherView from '../DetailedWeatherView';
-import WeatherIcon from '../WeatherIcon';
+import ActivityDialog from '../ActivityDialog';
 
-// WeatherCard Component
-const WeatherCard = ({ day, index, setSelectedDay, onActivityClick }) => {
-  return (
-    <Card 
-      sx={{ 
-        minWidth: 200, 
-        cursor: 'pointer',
-        '&:hover': {
-          boxShadow: 6,
-          transform: 'scale(1.02)',
-          transition: 'transform 0.2s ease-in-out'
-        }
-      }}
-    >
-      <CardContent onClick={() => setSelectedDay(day)}>
-        <Typography variant="h6" gutterBottom>
-          {day.date}
-        </Typography>
-        <Typography variant="body1" gutterBottom>
-          {day.temperature}°C
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          {day.condition}
-        </Typography>
-      </CardContent>
-      <CardActions sx={{ justifyContent: 'center', paddingBottom: 2 }}>
-        <Button 
-          variant="contained" 
-          size="small" 
-          color="primary"
-          startIcon={<DirectionsRunIcon />}
-          onClick={(e) => {
-            e.stopPropagation();
-            onActivityClick(day.activities.suggestions);
-          }}
-          sx={{
-            borderRadius: 20,
-            textTransform: 'none',
-            '&:hover': {
-              transform: 'scale(1.05)',
-              transition: 'transform 0.2s ease-in-out'
-            }
-          }}
-        >
-          Activities
-        </Button>
-      </CardActions>
-    </Card>
-  );
-};
-
-// ActivityDialog Component
-const ActivityDialog = ({ open, handleClose, activity }) => {
-  if (!activity) return null;
-
-  return (
-    <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
-      <DialogTitle>
-        Suggested Activity
-      </DialogTitle>
-      <DialogContent>
-        <Box sx={{ py: 2 }}>
-          <Typography variant="h6" gutterBottom>
-            {activity.name}
-          </Typography>
-          <Typography variant="body1" gutterBottom>
-            {activity.description}
-          </Typography>
-          {activity.requirements && (
-            <Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
-              Requirements: {activity.requirements}
-            </Typography>
-          )}
-        </Box>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose} color="primary">
-          Close
-        </Button>
-      </DialogActions>
-    </Dialog>
-  );
-};
-
-// Main Homepage Component
 const Homepage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [weatherData, setWeatherData] = useState([]);
@@ -142,18 +44,30 @@ const Homepage = () => {
     setDialogOpen(true);
   };
 
-  const handleActivityButtonClick = (activities) => {
-    setSelectedActivity(activities[0]); // You can modify this to handle multiple activities
-    setDialogOpen(true);
-  };
-
   const handleCloseDialog = () => {
     setDialogOpen(false);
     setSelectedActivity(null);
   };
 
   useEffect(() => {
-    fetchWeatherData('soweto'); // Default location on load
+    // Prompt user for location access
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          fetchWeatherData(`${latitude},${longitude}`); // Use latitude and longitude to fetch weather data
+        },
+        (error) => {
+          console.error('Error getting location', error);
+          setError('Location access denied. Defaulting to Soweto.');
+          fetchWeatherData('Soweto'); // Fallback to default location if location access is denied
+        }
+      );
+    } else {
+      console.log('Geolocation not supported');
+      setError('Geolocation not supported. Defaulting to Soweto.');
+      fetchWeatherData('Soweto'); // Fallback to default location if geolocation is not supported
+    }
   }, []);
 
   return (
@@ -213,7 +127,6 @@ const Homepage = () => {
                   day={day}
                   index={index}
                   setSelectedDay={setSelectedDay}
-                  onActivityClick={handleActivityButtonClick}
                 />
               ))}
             </Box>
